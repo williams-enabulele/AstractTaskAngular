@@ -3,3 +3,18 @@
     justify-content: space-between;
     cursor: pointer;
 }
+
+@media only screen and (max-width: 600px) {
+    .centered {
+        padding: 15px 45px;
+        background: #f4f9ff;
+        width: 90vw;
+      }
+}
+@media only screen and (min-width: 600px) {
+    .centered {
+        padding: 15px 45px;
+        background: #f4f9ff;
+        width: 50vw;
+      }
+}
