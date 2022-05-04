@@ -1,0 +1,50 @@
+/* You can add global styles to this file, and also import other style files */
+
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+.container-fluid{
+    margin: 0;
+    padding: 0;
+}
+
+.centered {
+    padding: 15px 45px;
+    background: #f4f9ff;
+    width: 50vw;
+  }
+  
+  .container {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+  
+  .brand {
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 45px;
+      color: rgb(10, 7, 47)
+  }
+  
+  input{
+      border: none;
+      height: 60px;
+      margin-bottom: 15px;
+  }
+  button {
+      height: 60px;
+  }
+
+  p , span {
+      color: rgba(0, 0, 0, 0.544);
+  }
+
+  span:hover {
+      color: rgb(24, 93, 254);
+  }
+  

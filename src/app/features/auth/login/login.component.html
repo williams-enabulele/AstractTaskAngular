@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="centered">
+    <form class="row mt-5" [formGroup]="loginForm" (ngSubmit)="LoginForm()">
+      <div class="brand col-12">
+        Astract
+      </div>
+      <div class="col-12 mb-2">
+        <input type="text" class="form-control" formControlName="email" placeholder="Email">
+      </div>
+      <div class="col-12 mb-2">
+        <input type="password" class="form-control" formControlName="password" placeholder="Password">
+      </div>
+      <div class="col-12 mb-5">
+        <button class="btn btn-primary  w-100" [disabled]="loginForm.invalid">
+          <span *ngIf="loading" class="spinner-grow spinner-grow-sm text-light"></span>Sign In</button>
+      </div>
+      <div class="link col-12 mb-5">
+        <span>Don't Have an account?</span><span routerLink="/register">Register</span>
+      </div>
+
+    </form>
+  </div>
+</div>
