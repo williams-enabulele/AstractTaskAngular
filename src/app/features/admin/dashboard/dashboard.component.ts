@@ -23,9 +23,6 @@ export class DashboardComponent implements OnInit {
       next: response => {
         this.loading = false;
         this.Tasks = response.data;
-        if(this.Tasks === []){
-          this.isEmpty = false;
-        }
         console.log(this.Tasks);
       },
       error: err => {

@@ -9,6 +9,7 @@ import { AdminComponent } from './layout/admin/admin.component';
 import { UserComponent } from './layout/user/user.component';
 import { HeaderComponent } from './layout/admin/components/header/header.component';
 import { FooterComponent } from './layout/admin/components/footer/footer.component';
+import { UserHeaderComponent } from './layout/user/components/user-header/user-header.component';
 export function tokenGetter() {
   return localStorage.getItem("token");
 }
@@ -21,6 +22,7 @@ export function tokenGetter() {
     UserComponent,
     HeaderComponent,
     FooterComponent,
+    UserHeaderComponent,
   ],
   imports: [
     BrowserModule,

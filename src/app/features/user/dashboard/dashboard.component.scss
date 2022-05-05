@@ -2,3 +2,30 @@
     display: flex;
     justify-content: flex-end;
 }
+
+.btn-sm{
+    cursor: pointer;
+}
+
+button{
+    height: 50px;
+    width: 150px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.table {
+    overflow: scroll;
+}
+
+.left{
+    display: flex;
+    justify-content: flex-end;
+    max-width: 100%;
+}
+
+.tbl-style {
+    width: 100%;
+    overflow-x: scroll;
+}

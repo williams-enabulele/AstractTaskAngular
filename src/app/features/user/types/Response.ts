@@ -4,4 +4,5 @@ export interface Response {
     succeeded: string,
     message: string,
     statusCode: boolean
+
 }

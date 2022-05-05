@@ -1,41 +1,77 @@
-<div class="container">
-    <div class="centered">
-        <div class="row">
-            <div class="col-12 left">
-                <button class="btn-secondary btn-sm">Add Task</button>
-            </div>
-            <div class="col-12">
-                <table class="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                      </tr>
-                    </tbody>
-                  </table>
-            </div>
-        </div>
-       
+<div class="wrapper">
+  <div class="row mt-5 p-5">
+    <div class="col-12 left">
+      <div class="btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#addEditModal">Add Task</div>
     </div>
+    <div class="tbl-style">
+      <table class="table table-striped caption-top">
+        <caption>My Tasks</caption>
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Deadline</th>
+            <th>status</th>
+            <th>...</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let task of tasks; let i = index">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{task.title}}</td>
+            <td>{{task.description}}</td>
+            <td>{{task.deadLine | date}}</td>
+            <td><h5><span class="badge" [ngClass]="{'bg-success':task.isCompleted === true, 'bg-danger':task.isCompleted ===false}">{{task.isCompleted?"Completed" : "Pending"}}</span></h5></td>
+            <td>
+              <div class="d-flex">
+                <span class="btn btn-primary btn-sm" type="button" (click)="openModal(task.id)" data-bs-toggle="modal" data-bs-target="#addEditModal">Edit</span>
+                <span class="btn btn-danger btn-sm" type="button" (click)="deleteTask(task.id)">Delete</span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="addEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Astract Task</h5>
+        <span type="button" class="btn-close" data-bs-dismiss="modal" (click)="clearForm()" aria-label="Close"></span>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="form" (ngSubmit)="submit()">
+
+          <div class="form-group">
+            <input type="text" formControlName="title" placeholder="title" class="form-control" />
+          </div>
+          <div class="form-group">
+            <input type="text" formControlName="description" placeholder="Description" class="form-control" />
+          </div>
+          <div class="form-group">
+            <input type="datetime-local" id="start" formControlName="deadLine" placeholder="Deadline" class="form-control">
+          </div>
+          <div class="form-group">
+            <label class="mb-2">Select Category</label>
+            <select formControlName="taskCategoryId" class="form-select form-select-lg" placeholder="Select Category">
+              <option *ngFor="let category of categories" value="{{category['id']}}">{{category['name']}}</option>
+            </select>
+          </div>
+          <input type="hidden" formControlName="userId">
+          <div class="form-group">
+            <label class="mt-2 mb-2">Select Status</label>
+            <select formControlName="isCompleted" class="form-select form-select-lg" placeholder="Select Status">
+              <option value=true>Yes</option>
+              <option value=false>No</option>
+            </select>
+          </div>
+          <button class="btn-primary" type="submit" *ngIf="!editMode">Save</button>
+          <button class="btn-primary" type="submit" *ngIf="editMode">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

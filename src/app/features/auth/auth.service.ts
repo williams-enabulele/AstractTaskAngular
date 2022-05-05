@@ -45,8 +45,8 @@ export class AuthService {
     const role = appUser['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
     if (role == Role.User) {
       this.router.navigate(['/user'])
-      } else {
-        this.router.navigate(['/admin'])
+      } else if (role == Role.Admin) {
+      this.router.navigate(['/admin'])
     };
   }
 

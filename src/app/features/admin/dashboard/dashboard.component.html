@@ -1,12 +1,4 @@
 <div class="container-fluid">
-  <div class="loading" *ngIf="loading">
-   
-      <div class="spinner-border text-primary text-center" role="status">
-        <span class="visually-hidden">Loading...</span>
-    </div>
- 
-
-  <app-table [tasks] = "Tasks" *ngIf="!loading"></app-table> 
-
+  <app-table [tasks] = "Tasks"></app-table> 
 </div>
-<div class="text-center mt-5" *ngIf="isEmpty">No Task created yet</div>
+<div class="text-center mt-5" *ngIf="loading">No Task created yet</div>
