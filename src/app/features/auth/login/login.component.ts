@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AlertService } from '@app/alert.service';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    private alertService: AlertService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.minLength(3)]],
@@ -37,9 +39,8 @@ export class LoginComponent implements OnInit {
         this.loading = false;
       },
       error: err => {
-        console.log(err.error)
         this.loading = false;
-        // ToDo: On error alert
+        this.alertService.alertWithError(err.error.message)
       }
     }
 

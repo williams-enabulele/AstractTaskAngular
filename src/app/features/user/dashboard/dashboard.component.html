@@ -4,34 +4,7 @@
       <div class="btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#addEditModal">Add Task</div>
     </div>
     <div class="tbl-style">
-      <table class="table table-striped caption-top">
-        <caption>My Tasks</caption>
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Title</th>
-            <th scope="col">Description</th>
-            <th scope="col">Deadline</th>
-            <th>status</th>
-            <th>...</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let task of tasks; let i = index">
-            <th scope="row">{{i + 1}}</th>
-            <td>{{task.title}}</td>
-            <td>{{task.description}}</td>
-            <td>{{task.deadLine | date}}</td>
-            <td><h5><span class="badge" [ngClass]="{'bg-success':task.isCompleted === true, 'bg-danger':task.isCompleted ===false}">{{task.isCompleted?"Completed" : "Pending"}}</span></h5></td>
-            <td>
-              <div class="d-flex">
-                <span class="btn btn-primary btn-sm" type="button" (click)="openModal(task.id)" data-bs-toggle="modal" data-bs-target="#addEditModal">Edit</span>
-                <span class="btn btn-danger btn-sm" type="button" (click)="deleteTask(task.id)">Delete</span>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <app-table [tasks]= tasks (open)="openModal($event)" (delete)="deleteTask($event)"></app-table>
     </div>
   </div>
 </div>
@@ -43,10 +16,10 @@
         <span type="button" class="btn-close" data-bs-dismiss="modal" (click)="clearForm()" aria-label="Close"></span>
       </div>
       <div class="modal-body">
-        <form [formGroup]="form" (ngSubmit)="submit()">
+        <form #myForm="ngForm" [formGroup]="form" (ngSubmit)="submit()" >
 
           <div class="form-group">
-            <input type="text" formControlName="title" placeholder="title" class="form-control" />
+            <input type="text" formControlName="title" placeholder="Title" class="form-control" />
           </div>
           <div class="form-group">
             <input type="text" formControlName="description" placeholder="Description" class="form-control" />
@@ -68,8 +41,8 @@
               <option value=false>No</option>
             </select>
           </div>
-          <button class="btn-primary" type="submit" *ngIf="!editMode">Save</button>
-          <button class="btn-primary" type="submit" *ngIf="editMode">Save Changes</button>
+          <button class="btn-primary" type="submit" *ngIf="!editMode" [disabled]="form.invalid">Save</button>
+          <button class="btn-primary" type="submit" *ngIf="editMode" [disabled]="form.invalid">Save Changes</button>
         </form>
       </div>
     </div>

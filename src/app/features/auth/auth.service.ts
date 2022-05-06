@@ -35,22 +35,21 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
-    this.router.navigate(['']);
+    this.router.navigate(['/login']).then(() => {
+      window.location.reload();
+    });;
   }
 
   setUser(response: Auth) {
-
     localStorage.setItem('token', response.token);
     const appUser = this.decode(response.token);
     const role = appUser['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
     if (role == Role.User) {
-      this.router.navigate(['/user'])
+      this.router.navigateByUrl('/user')
       } else if (role == Role.Admin) {
-      this.router.navigate(['/admin'])
+      this.router.navigateByUrl('/admin')
     };
   }
-
-
   decode(token: string) {
     return helper.decodeToken(token);
   }

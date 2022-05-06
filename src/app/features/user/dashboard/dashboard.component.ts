@@ -3,6 +3,8 @@ import { AuthService } from '@app/features/auth/auth.service';
 import { UserService } from '../user.service';
 import { Task } from '../types/Task';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { AlertService } from '@app/alert.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,15 +26,17 @@ export class DashboardComponent implements OnInit {
 
 
 
+
   constructor(
-    private userService : UserService,
+    private userService: UserService,
     private authService: AuthService,
     private fb: FormBuilder,
+    private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
-    if(token){
+    if (token) {
       const appUser = this.authService.decode(token);
       this.userId = appUser['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
       this.userService.read(this.userId).subscribe({
@@ -46,23 +50,18 @@ export class DashboardComponent implements OnInit {
     }
     this.userService.getCategories().subscribe({
       next: response => {
-          this.categories = response.data
+        this.categories = response.data
       },
       error: err => {
         // To do
       }
     })
-    this.form = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', [Validators.required, Validators.minLength(6)]],
-      deadLine:[this.currentDate, Validators.required ],
-      taskCategoryId: ['', Validators.required],
-      userId: [this.userId, Validators.required],
-      isCompleted: ['', Validators.required]
-    });
+
+    this.initializeForm()
+   
   }
 
-  getTask(){
+  getTask() {
     this.userService.read(this.userId).subscribe({
       next: response => {
         this.tasks = response.data
@@ -72,32 +71,46 @@ export class DashboardComponent implements OnInit {
       }
     })
   }
-  submit(){
-    if(this.editMode){
+  submit() {
+    if (this.editMode) {
       this.updateTask()
     }
-    else{
+    else {
       this.createTask()
       this.clearForm()
     }
   }
 
-  createTask(){
+  createTask() {
     this.userService.create(this.form.value).subscribe({
       next: response => {
-          this.getTask();
+        this.getTask();
+        this.alertService.alertWithSuccess("New task Created!");
+        this.form.reset();
+        this.initializeForm();
       },
       error: err => {
-
+          this.alertService.alertWithError(err.error.message)
       }
     })
   }
 
-  updateTask(){
-    this.form.addControl("id",new FormControl(this.id, Validators.required));
-    this.userService.update(this.id, this.form.value, ).subscribe({
+  initializeForm(){
+    this.form = this.fb.group({
+      title: ['', [Validators.required, Validators.minLength(3)]],
+      description: ['', [Validators.required, Validators.minLength(6)]],
+      deadLine: [this.currentDate, Validators.required],
+      taskCategoryId: ['', Validators.required],
+      userId: [this.userId, Validators.required],
+      isCompleted: [false, Validators.required],
+    } );
+  }
+
+  updateTask() {
+    this.form.addControl("id", new FormControl(this.id, Validators.required));
+    this.userService.update(this.id, this.form.value,).subscribe({
       next: response => {
-          this.getTask()
+        this.getTask()
       },
       error: err => {
 
@@ -105,11 +118,13 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  deleteTask(id: string){
+  deleteTask(id: string) {
+
     this.userService.delete(id).subscribe({
       next: response => {
         this.id = id
         this.getTask();
+     
       },
       error: err => {
 
@@ -118,20 +133,22 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  openModal(id:string){
-    if(id){
-    this.editMode = true
-    const task = this.tasks.filter(x => x.id == id);
-    console.log(task[0])
-    this.form.patchValue(task[0]);
-    this.id = id
+  openModal(id: string) {
+    if (id) {
+      this.editMode = true
+      const task = this.tasks.filter(x => x.id == id);
+      console.log(task[0])
+      this.form.patchValue(task[0]);
+      this.id = id
     }
   }
-  clearForm(){
+  clearForm() {
     this.form.reset()
     this.editMode = false
     this.id = ""
   }
+
+
 
 
 

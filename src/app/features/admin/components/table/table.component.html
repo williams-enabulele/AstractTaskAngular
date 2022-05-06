@@ -16,8 +16,11 @@
         <td>{{task.title}}</td>
         <td>{{task.description}}</td>
         <td>{{task.deadLine | date}}</td>
-        <td><h5><span class="badge" [ngClass]="{'bg-success':task.isCompleted === true, 'bg-danger':task.isCompleted ===false}">{{task.isCompleted?"Completed" : "Pending"}}</span></h5></td>
-        
+        <td>
+          <h5><span class="badge"
+              [ngClass]="{'bg-success':task.isCompleted === true, 'bg-danger':task.isCompleted ===false}">{{task.isCompleted?"Completed"
+              : "Pending"}}</span></h5>
+        </td>
       </tr>
     </tbody>
   </table>

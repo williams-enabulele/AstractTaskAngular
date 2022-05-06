@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AlertService } from '@app/alert.service';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -16,6 +17,7 @@ export class RegisterComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
+    private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -33,12 +35,14 @@ export class RegisterComponent implements OnInit {
       this.authService.signup(this.registerForm.value).subscribe({
         next: response => {
           this.loading = false
+          this.alertService.alertWithSuccess("Successfully registered, login!")
           console.log(response.data)
           this.router.navigate(['']);
         },
         error: err => {
           this.loading = false;
           console.log(err.error)
+          this.alertService.alertWithError(err.error.message)
         }
       })
   }

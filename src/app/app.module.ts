@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { JwtModule } from "@auth0/angular-jwt";
 import { HttpClientModule } from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+
 import { AppComponent } from './app.component';
 import { AuthComponent } from './layout/auth/auth.component';
 import { AdminComponent } from './layout/admin/admin.component';
@@ -27,6 +29,7 @@ export function tokenGetter() {
   imports: [
     BrowserModule,
     HttpClientModule,
+    SweetAlert2Module.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {
